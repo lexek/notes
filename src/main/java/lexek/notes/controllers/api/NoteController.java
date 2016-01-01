@@ -5,8 +5,6 @@ import lexek.notes.dao.NoteRepository;
 import lexek.notes.models.Note;
 import lexek.notes.models.User;
 import lexek.notes.models.form.NoteForm;
-import lexek.notes.util.ForbiddenException;
-import lexek.notes.util.NotFoundException;
 import lexek.notes.views.json.NoteSummary;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -14,11 +12,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.codec.Hex;
-import org.springframework.security.crypto.keygen.BytesKeyGenerator;
-import org.springframework.security.crypto.keygen.KeyGenerators;
 import org.springframework.security.web.bind.annotation.AuthenticationPrincipal;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -36,7 +30,8 @@ public class NoteController {
     @RequestMapping(value = "/api/note", method = RequestMethod.POST)
     public ResponseEntity addNote(
             @AuthenticationPrincipal(errorOnInvalidType = true) User user,
-            @Valid @RequestBody NoteForm form) {
+            @Valid @RequestBody NoteForm form
+    ) {
         Note note = new Note(
                 form.getTitle(),
                 form.getType(),
@@ -52,7 +47,8 @@ public class NoteController {
     public ResponseEntity updateNote(
             @AuthenticationPrincipal User user,
             @PathVariable("id") Note note,
-            @Valid @RequestBody NoteForm form) {
+            @Valid @RequestBody NoteForm form
+    ) {
         if (note.getOwner().getId().equals(user.getId())) {
             note.setLastModified(new Date());
             note.setTags(form.getTags());

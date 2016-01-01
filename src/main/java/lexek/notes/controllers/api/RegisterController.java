@@ -34,7 +34,8 @@ public class RegisterController {
             @RequestParam(value = "name", required = true) String name,
             @RequestParam(value = "password", required = true) String password,
             @RequestParam(value = "email", required = true) String email,
-            Model model) {
+            Model model
+    ) {
         userRepository.save(new User(null, name, email, passwordEncoder.encode(password), UserRole.USER));
         return "redirect:/";
     }
@@ -45,7 +46,8 @@ public class RegisterController {
             @RequestParam(value = "name", required = true) String name,
             @RequestParam(value = "password", required = true) String password,
             @RequestParam(value = "email", required = true) String email,
-            Model model) {
+            Model model
+    ) {
         userRepository.save(new User(null, name, email, passwordEncoder.encode(password), UserRole.USER));
         model.asMap().put("success", true);
     }

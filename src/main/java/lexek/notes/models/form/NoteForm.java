@@ -25,7 +25,8 @@ public class NoteForm {
             @JsonProperty("title") String title,
             @JsonProperty("text") String text,
             @JsonProperty("tags") List<String> tags,
-            @JsonProperty("type") NoteType type) {
+            @JsonProperty("type") NoteType type
+    ) {
         this.title = title;
         this.text = text;
         this.tags = tags;
