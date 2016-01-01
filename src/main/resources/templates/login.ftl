@@ -1,7 +1,7 @@
 <html ng-app>
-<head>
-    <link href="/vendor/css/bootstrap.min.css" rel="stylesheet">
-</head>
+    <head>
+        <link href="/vendor/css/bootstrap.min.css" rel="stylesheet">
+    </head>
 <body>
 
 <div class="container" style="margin-top: 100px">
@@ -38,7 +38,7 @@
                     </div>
                     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                     <div class="form-group">
-                        <div class="col-sm-offset-2 col-sm-10">
+                        <div class="col-sm-12">
                             <button type="submit" class="btn btn-default">Войти</button>
                             <a class="btn btn-link pull-right" href="/register">Регистрация</a>
                         </div>

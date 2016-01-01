@@ -3,14 +3,14 @@ package lexek.notes.controllers.api;
 import lexek.notes.dao.UserRepository;
 import lexek.notes.models.User;
 import lexek.notes.models.UserRole;
+import lexek.notes.models.form.RegistrationForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/register")
@@ -25,18 +25,20 @@ public class RegisterController {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public String doGet() {
+    public String doGet(Model model) {
+        model.addAttribute("val", new RegistrationForm());
         return "register";
     }
 
     @RequestMapping(method = RequestMethod.POST, produces = "text/html")
     public String register(
-            @RequestParam(value = "name", required = true) String name,
-            @RequestParam(value = "password", required = true) String password,
-            @RequestParam(value = "email", required = true) String email,
-            Model model
+            @Validated @ModelAttribute("val") RegistrationForm form,
+            BindingResult bindingResult
     ) {
-        userRepository.save(new User(null, name, email, passwordEncoder.encode(password), UserRole.USER));
+        if (bindingResult.hasErrors()) {
+            return "register";
+        }
+        userRepository.save(new User(null, form.getUsername(), form.getEmail(), passwordEncoder.encode(form.getPassword()), UserRole.USER));
         return "redirect:/";
     }
 
